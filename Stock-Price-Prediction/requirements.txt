@@ -2,6 +2,7 @@ numpy
 pandas
 matplotlib
 keras
+tensorflow
 streamlit
 yfinance
 scikit-learn
