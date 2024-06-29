@@ -78,39 +78,39 @@ ax2.set_ylabel('Price')
 ax2.legend()
 st.pyplot(fig2)
 
-# Future price prediction
-st.subheader('Future Price Prediction')
-future_days = st.slider('Select number of months to predict', 1, 20)
-future_days = future_days * 30
+# # Future price prediction
+# st.subheader('Future Price Prediction')
+# future_days = st.slider('Select number of months to predict', 1, 20)
+# future_days = future_days * 30
 
-last_100_days = data_test_scale[-100:]
-future_predictions = []
+# last_100_days = data_test_scale[-100:]
+# future_predictions = []
 
-for _ in range(future_days):
-    future_pred = model.predict(last_100_days.reshape(1, 100, 1))
-    future_pred = future_pred[0][0] * scale_factor
-    future_predictions.append(future_pred)
-    new_entry = np.append(last_100_days[1:], [[future_pred / scale_factor]], axis=0)
-    last_100_days = new_entry
+# for _ in range(future_days):
+#     future_pred = model.predict(last_100_days.reshape(1, 100, 1))
+#     future_pred = future_pred[0][0] * scale_factor
+#     future_predictions.append(future_pred)
+#     new_entry = np.append(last_100_days[1:], [[future_pred / scale_factor]], axis=0)
+#     last_100_days = new_entry
 
-# Future dates
-last_date = data.index[-1]
-future_dates = pd.date_range(start=last_date, periods=future_days + 1).tolist()[1:]
+# # Future dates
+# last_date = data.index[-1]
+# future_dates = pd.date_range(start=last_date, periods=future_days + 1).tolist()[1:]
 
-# Combine last 5 days of actual data with future predictions
-recent_5_days = data['Close'][-5:].values.tolist()
-combined_data = recent_5_days + future_predictions
-combined_dates = data.index[-5:].tolist() + future_dates
+# # Combine last 5 days of actual data with future predictions
+# recent_5_days = data['Close'][-5:].values.tolist()
+# combined_data = recent_5_days + future_predictions
+# combined_dates = data.index[-5:].tolist() + future_dates
 
-# Future Price Plot
-fig3, ax3 = plt.subplots(figsize=(8, 6))
-ax3.plot(combined_dates[:5], recent_5_days, 'g', label='Last 5 Days Actual Price')
-ax3.plot(combined_dates[4:], combined_data[4:], 'r', label='Predicted Future Price')
-ax3.set_xlabel('Date')
-plt.xticks(rotation=45)
-ax3.set_ylabel('Price')
-ax3.legend()
-st.pyplot(fig3)
+# # Future Price Plot
+# fig3, ax3 = plt.subplots(figsize=(8, 6))
+# ax3.plot(combined_dates[:5], recent_5_days, 'g', label='Last 5 Days Actual Price')
+# ax3.plot(combined_dates[4:], combined_data[4:], 'r', label='Predicted Future Price')
+# ax3.set_xlabel('Date')
+# plt.xticks(rotation=45)
+# ax3.set_ylabel('Price')
+# ax3.legend()
+# st.pyplot(fig3)
 
 # Display future predictions
 future_df = pd.DataFrame({'Date': future_dates, 'Predicted Price': future_predictions})
